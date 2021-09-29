@@ -1,0 +1,68 @@
+<!--
+
+Author: Royal Cloud Solutions 2020
+Developed in cooperation with NTNU as a bachelor thesis.
+Updated: 26.5.2020
+Version 1.1
+
+Provides realtime data from firebase under the child: "kontoretTilArne"
+Connects to app.js through websocket for realtime communication.
+
+-->
+
+<!doctype html>
+<html lang="en">
+    <head> <!-- Add style of tables -->
+        <style>
+            table, td {
+              border: 1px solid black;
+            }
+            th, td {
+                padding: 10px;
+            }
+        </style>  
+    </head>
+    <body>
+        <h1>Realtime Measures of kontoret til Arne</h1>
+        <table id="myTable">   </table> <!-- Add table for sensor data -->
+        <script src="/jquery/dist/jquery.js"></script>  <!-- Add jquery package for JS-->
+        <script src="/socket.io/socket.io.js"></script> <!-- Add socket.io package for JS-->
+        <script> // Start JS 
+            // Create socket for frontend and where IP must be changed if another IP
+            const socket = io.connect('http://192.168.2.114:4000');     
+            // If connection with server -> update table with new data
+            socket.on('socketData_kontoretTilArne', function (data) { 
+                //Connect with HTML-table and clean previous table;                
+                var table = document.getElementById("myTable");
+                table.innerHTML = ""
+
+                // Create table and put in new sensor data in table
+                for(var key in data){
+                    var row = table.insertRow(0);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    cell1.innerHTML = key;
+                    cell2.innerHTML = data[key];
+                }
+
+                // Create header of table 
+                var header = table.createTHead();
+                var row = header.insertRow(0);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                cell1.innerHTML = "<b>Meassurements</b>";
+                cell2.innerHTML = "<b>Value</b>";
+
+                // Send ack to host
+                socket.emit('socketAck', { client: data });
+            });
+        </script>
+        <br>
+        <p1>List of other pages:</p1> <!-- Create list of links to other pages-->
+        <ul>
+            <li><a href="/api/ntnuGateway08">Link to: NTNU gateway</a></li>
+            <li><a href='/'>Link to: Home page</a></li>
+        </ul>
+        <br>
+    </body>
+</html>
