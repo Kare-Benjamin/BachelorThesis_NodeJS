@@ -1,5 +1,5 @@
 # BachelorThesis_NodeJS
-This repository contains the backend/frontend NodeJS solution of a Bachelor Thesis.
+This repository contains the backend/frontend NodeJS solution from a Bachelor Thesis.
 It is created using JavaScript and is based on communication between Google Firebase and a NodeJS backend.
 
 NodeJS establishes a web hosting system and a WebSocket connection for real-time updates to a set of web pages. NodeJS Interacts with Google Firebase in real-time fetching data, which is relayed from a sensor system (Texas Instruments + ESP32 setup). It automatically updates the latest values with the HTTP GET method using callbacks. 
